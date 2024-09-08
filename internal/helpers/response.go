@@ -1,1 +1,14 @@
 package helpers
+
+func ResponseFormat(code int, message string, data any) map[string]any {
+	result := make(map[string]any)
+
+	result["code"] = code
+	result["message"] = message
+
+	if data != nil {
+		result["data"] = data
+	}
+
+	return result
+}
