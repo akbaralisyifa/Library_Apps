@@ -21,7 +21,7 @@ func NewUserServices(q users.Query, j utils.JwtUtilityInteface, p utils.Password
 	}
 }
 
-
+// Register
 func (us *UserServices) Register(newUser users.Users) error {
 
 	// hashing password
@@ -42,6 +42,7 @@ func (us *UserServices) Register(newUser users.Users) error {
 	return	nil
 }
 
+// Login
 func (us *UserServices) Login(email string, password string) (users.Users, string, error) {
 	result, err := us.qry.Login(email);
 	if err != nil {
@@ -66,7 +67,19 @@ func (us *UserServices) Login(email string, password string) (users.Users, strin
 	return result, token, nil
 }
 
+// Get User
+func (us *UserServices) GetUser(userID uint) (users.Users, error) {
+	result, err := us.qry.GetUser(userID);
 
+	if err != nil {
+		log.Print("get user query error", err.Error())
+		return users.Users{}, errors.New("error in server")
+	}
+
+	return result, nil
+}
+
+// Update User
 func (us *UserServices) UpdateUser(id uint, updateUser users.Users) error {
 
 	// check pw update

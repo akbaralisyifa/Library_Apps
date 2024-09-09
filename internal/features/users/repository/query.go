@@ -39,6 +39,18 @@ func (um *UserModels) Login(email string) (users.Users, error){
 	return result.ToUserEntity(), nil
 }
 
+// Get user
+func (um *UserModels) GetUser(userID uint) (users.Users, error){
+	var result Users;
+	err := um.db.Where("id = ?", userID).First(&result).Error
+	
+	if err != nil {
+		return users.Users{}, err
+	}
+
+	return result.ToUserEntity(), nil
+}
+
 
 func (um *UserModels) UpdateUser(id uint, updateUser users.Users) error {
 	cnvData := ToUserQuery(updateUser);

@@ -24,6 +24,7 @@ func NewUserHandler(s users.Service) users.Handler{
 
 func (uh *UserHandler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		admin := c.Param("admin")
 		var result RegisterRequest
 
 		err := c.Bind(&result)
@@ -31,13 +32,21 @@ func (uh *UserHandler) Register() echo.HandlerFunc {
 			log.Print("error", err.Error())
 			return c.JSON(http.StatusBadRequest, helpers.ResponseFormat(http.StatusBadRequest, "bad requeste", nil))
 		}
-
-		err = uh.srv.Register(ToModelUser(result))
-		if err != nil {
-			log.Print("Error", err.Error())
-			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
+		
+		if admin != "" {
+			err = uh.srv.Register(ToModelUser(result, admin))
+			if err != nil {
+				log.Print("Error", err.Error())
+				return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
+			}
+		}else {
+			err = uh.srv.Register(ToModelUser(result, "user"))
+			if err != nil {
+				log.Print("Error", err.Error())
+				return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
+			}
 		}
-
+		
 		return c.JSON(http.StatusCreated, helpers.ResponseFormat(http.StatusCreated, "register success", nil))
 	}
 }
@@ -58,7 +67,6 @@ func (uh *UserHandler) Login() echo.HandlerFunc{
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}
 
-
 		return c.JSON(http.StatusOK, helpers.ResponseFormat(http.StatusOK, "login success", ToLoginResponse(value, token)))
 	}
 }
@@ -76,7 +84,7 @@ func (uh *UserHandler) UpdateUser() echo.HandlerFunc{
 			return c.JSON(http.StatusBadRequest, helpers.ResponseFormat(http.StatusBadRequest, "bad requeste", nil))
 		}
 
-		err = uh.srv.UpdateUser(uint(ID), ToModelUser(input))
+		err = uh.srv.UpdateUser(uint(ID), ToUpdateUser(input))
 		if err != nil {
 			log.Print("Error", err.Error())
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))

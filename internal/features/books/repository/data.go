@@ -1,7 +1,7 @@
 package repository
 
 import (
-	brepo "library/internal/features/borrowed/repository"
+	"library/internal/features/books"
 	rrepo "library/internal/features/recomendation/repository"
 
 	"gorm.io/gorm"
@@ -14,5 +14,23 @@ type Books struct {
 	Author 	 	  string
 	PublishedYear string
 	Recomendation []rrepo.Recomendation `gorm:"foreignKey:BookID"`
-	Borrowed	  []brepo.Borrowed `gorm:"foreignKey:BookID"`
+}
+
+func (b *Books) ToBookEntity() books.Books{
+	return books.Books{
+		ID:            b.ID, 
+		CategoryID:    b.CategoryID,
+		Title:    	   b.Title,
+		Author:        b.Author,
+		PublishedYear: b.PublishedYear,
+	}
+}
+
+func ToBookQuery(input books.Books) Books {
+	return Books{
+		CategoryID:    input.CategoryID,
+		Title:         input.Title,
+		Author: 	   input.Author,
+		PublishedYear: input.PublishedYear,
+	}
 }

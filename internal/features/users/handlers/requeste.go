@@ -13,7 +13,16 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func ToModelUser(rr RegisterRequest) users.Users{
+func ToModelUser(rr RegisterRequest, role string) users.Users{
+	return users.Users{
+		Username: rr.Username,
+		Email:    rr.Email,
+		Password: rr.Password,
+		Role: role,
+	}
+}
+
+func ToUpdateUser(rr RegisterRequest) users.Users{
 	return users.Users{
 		Username: rr.Username,
 		Email:    rr.Email,

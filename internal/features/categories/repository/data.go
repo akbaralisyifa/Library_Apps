@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"library/internal/features/books/repository"
+	bkrepo "library/internal/features/books/repository"
 
 	"gorm.io/gorm"
 )
@@ -9,5 +9,5 @@ import (
 type Categories struct {
 	gorm.Model
 	Name string
-	Books repository.Books `gorm:"foreignKey:CategoryID"`
+	Books bkrepo.Books `gorm:"foreignKey:CategoryID"`
 }
