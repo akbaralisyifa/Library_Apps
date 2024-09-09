@@ -3,10 +3,12 @@ package handlers
 import (
 	"library/internal/features/categories"
 	"library/internal/helpers"
+	"library/internal/utils"
 	"log"
 	"net/http"
 	"strconv"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -23,15 +25,16 @@ func NewCategoryHandler(s categories.Service) categories.Handler {
 
 func (ch *CategoryHandler) AddCategory() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		userID := utils.NewJwtUtility().DecodToken(c.Get("user").(*jwt.Token))
+		
 		var input categoryInput
-
 		err := c.Bind(&input);
 		if err != nil {
 			log.Print("error", err.Error())
 			return c.JSON(http.StatusBadRequest, helpers.ResponseFormat(http.StatusBadRequest, "bad requeste", nil))
 		}
 
-		err = ch.srv.AddCategory(ToModelCategory(input))
+		err = ch.srv.AddCategory(uint(userID), ToModelCategory(input))
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}
@@ -58,6 +61,8 @@ func (ch *CategoryHandler) GetAllCategory() echo.HandlerFunc {
 
 func (ch *CategoryHandler) UpdateCategory() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		userID := utils.NewJwtUtility().DecodToken(c.Get("user").(*jwt.Token))
+
 		categoryID, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			log.Print("error", err.Error())
@@ -70,7 +75,7 @@ func (ch *CategoryHandler) UpdateCategory() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, helpers.ResponseFormat(http.StatusBadRequest, "bad requeste", nil))
 		}
 
-		err = ch.srv.UpdateCategory(uint(categoryID), ToModelCategory(input))
+		err = ch.srv.UpdateCategory(uint(userID), uint(categoryID), ToModelCategory(input))
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}
@@ -81,13 +86,15 @@ func (ch *CategoryHandler) UpdateCategory() echo.HandlerFunc {
 
 func (ch *CategoryHandler) DeleteCategory() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		userID := utils.NewJwtUtility().DecodToken(c.Get("user").(*jwt.Token))
+		
 		categoryID, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			log.Print("error", err.Error())
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "Invalid request parameters", nil))
 		}
 
-		err = ch.srv.DeleteCategory(uint(categoryID))
+		err = ch.srv.DeleteCategory(uint(userID), uint(categoryID))
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}

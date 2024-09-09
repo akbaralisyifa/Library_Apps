@@ -22,8 +22,8 @@ type Query interface {
 }
 
 type Service interface {
-	AddCategory(newCategory Categories) error
+	AddCategory(userID uint, newCategory Categories) error
 	GetAllCategory() ([]Categories, error)
-	UpdateCategory(categoryID uint, updateCategory Categories) error
-	DeleteCategory(categoryID uint) error
+	UpdateCategory(userID, categoryID uint, updateCategory Categories) error
+	DeleteCategory(userID, categoryID uint) error
 }

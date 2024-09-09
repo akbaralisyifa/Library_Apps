@@ -33,14 +33,14 @@ func (bs *BookServices) AddBook(userID uint, newBook books.Books) error {
 			log.Print("Add book query error")
 			return errors.New("error in server")
 		}
+		return nil
 	}
 	
-	if val.Role == "admin" {
-		return nil
-	}else {
-		return err
+	if val.Role == "user" {
+		return errors.New("failed: user does not have permission to add books")
 	}
 
+	return errors.New("failed: unknown user role")
 }
 
 func (bs *BookServices) GetAllBook() ([]books.Books, error) {
@@ -78,9 +78,14 @@ func (bs *BookServices) UpdateBook(userID, bookID uint, updateBook books.Books) 
 			log.Print("Update book query error")
 			return errors.New("error in server")
 		}
+		return nil
 	}
 
-	return nil
+	if val.Role == "user" {
+		return errors.New("failed: user does not have permission to add books")
+	}
+
+	return errors.New("failed: unknown user role")
 }
 
 func (bs *BookServices) DeleteBook(userID, bookID uint) error {
@@ -97,7 +102,12 @@ func (bs *BookServices) DeleteBook(userID, bookID uint) error {
 			log.Print("Update book query error")
 			return errors.New("error in server")
 		}
+		return nil
 	}
 
-	return nil
+	if val.Role == "user" {
+		return errors.New("failed: user does not have permission to add books")
+	}
+
+	return errors.New("failed: unknown user role")
 }

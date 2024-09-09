@@ -50,7 +50,7 @@ func (rh *RecommendHandler) AddRecommend() echo.HandlerFunc{
 	}
 }
 
-
+// get all recommend book
 func (rh *RecommendHandler) GetAllRecommend() echo.HandlerFunc{
 	return func(c echo.Context) error {
 
@@ -66,7 +66,7 @@ func (rh *RecommendHandler) GetAllRecommend() echo.HandlerFunc{
 	}
 }
 
-
+// update recommend book
 func (rh *RecommendHandler) UpdateRecommend() echo.HandlerFunc{
 	return func(c echo.Context) error {
 		recommnedID, err := strconv.Atoi(c.Param("id"))
@@ -90,7 +90,7 @@ func (rh *RecommendHandler) UpdateRecommend() echo.HandlerFunc{
 	}
 }
 
-
+// delete recommend book
 func (rh *RecommendHandler) DeleteRecommend() echo.HandlerFunc{
 	return func(c echo.Context) error {
 		recommnedID, err := strconv.Atoi(c.Param("id"))

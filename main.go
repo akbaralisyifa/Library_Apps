@@ -49,8 +49,12 @@ func InitBookRouter(db *gorm.DB) books.Handler{
 }
 
 func InitCategoryRoter(db *gorm.DB) categories.Handler{
+	jw := utils.NewJwtUtility()
+	pw := utils.NewPasswordUtility()
+	um := urepo.NewUserModels(db)
+	us := service.NewUserServices(um, jw, pw)
 	cm := crepo.NewCategoryModels(db)
-	cs := csrv.NewCategoryServices(cm)
+	cs := csrv.NewCategoryServices(cm, us)
 	ch := chand.NewCategoryHandler(cs)
 
 	return ch
