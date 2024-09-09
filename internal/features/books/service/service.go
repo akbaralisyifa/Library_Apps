@@ -34,8 +34,13 @@ func (bs *BookServices) AddBook(userID uint, newBook books.Books) error {
 			return errors.New("error in server")
 		}
 	}
+	
+	if val.Role == "admin" {
+		return nil
+	}else {
+		return err
+	}
 
-	return nil
 }
 
 func (bs *BookServices) GetAllBook() ([]books.Books, error) {

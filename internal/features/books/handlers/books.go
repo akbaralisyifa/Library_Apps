@@ -66,7 +66,7 @@ func (bh *BookHandler) UpdateBook() echo.HandlerFunc{
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}
 
-		return c.JSON(http.StatusCreated, helpers.ResponseFormat(http.StatusCreated, "Book successfully created", nil))
+		return c.JSON(http.StatusCreated, helpers.ResponseFormat(http.StatusCreated, "Book successfully updated", nil))
 	}
 }
 
@@ -85,7 +85,7 @@ func (bh *BookHandler) DeleteBook() echo.HandlerFunc{
 			return c.JSON(http.StatusInternalServerError, helpers.ResponseFormat(http.StatusInternalServerError, "server error", nil))
 		}
 
-		return c.JSON(http.StatusCreated, helpers.ResponseFormat(http.StatusCreated, "Book successfully created", nil))
+		return c.JSON(http.StatusCreated, helpers.ResponseFormat(http.StatusCreated, "Book successfully deleted", nil))
 	}
 }
 

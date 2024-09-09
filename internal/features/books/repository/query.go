@@ -64,7 +64,7 @@ func (bm *BookModels) UpdateBook(bookID uint, updateBook books.Books) error {
 		return qry.Error
 	}
 
-	if qry.RowsAffected < 0 {
+	if qry.RowsAffected < 1 {
 		return gorm.ErrRecordNotFound
 	}
 
@@ -80,7 +80,7 @@ func (bm *BookModels) DeleteBook(bookID uint) error {
 		return qry.Error
 	}
 
-	if qry.RowsAffected < 0 {
+	if qry.RowsAffected < 1 {
 		return gorm.ErrRecordNotFound
 	}
 

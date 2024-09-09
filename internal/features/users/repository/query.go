@@ -61,7 +61,7 @@ func (um *UserModels) UpdateUser(id uint, updateUser users.Users) error {
 		return qry.Error
 	}
 
-	if qry.RowsAffected < 0 {
+	if qry.RowsAffected < 1 {
 		return gorm.ErrRecordNotFound
 	}
 
@@ -76,7 +76,7 @@ func (um *UserModels) DeleteUser(id uint) error {
 		return qry.Error
 	}
 
-	if qry.RowsAffected < 0 {
+	if qry.RowsAffected < 1 {
 		return gorm.ErrRecordNotFound
 	}
 
