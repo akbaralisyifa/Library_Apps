@@ -76,3 +76,5 @@
   }
 
 ### **ERD**
+
+![ERD](<lib_erd.jpg>)
