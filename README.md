@@ -1,34 +1,36 @@
-# **Library Management System**
+# **Sistem Manajemen Perpustakaan**
 
-## **Overview**
+## **Deskripsi**
 
-The **Library Management System** is a project designed to manage books, categories, and users with two user roles:
-- **Admin**: Full access to manage books, categories, and recommendations.
-- **User**: Can view books and manage personal book recommendations.
+**Sistem Manajemen Perpustakaan** adalah proyek yang dirancang untuk mengelola buku, kategori buku, dan pengguna dengan dua peran utama:
+- **Admin**: Memiliki akses penuh untuk mengelola buku, kategori, dan rekomendasi.
+- **User**: Dapat melihat buku, mencari buku berdasarkan 'title' dan mengelola rekomendasi buku.
 
-## **MVP Features**
+## **Fitur Utama (MVP)**
 
-1. **Book Management**
-   - **Admin**: Can perform GET, POST, UPDATE, DELETE on books.
-   - **User**: Can perform GET (read-only access).
+1. **Manajemen Buku**
+   - **Admin**: Bisa melakukan GET, POST, UPDATE, DELETE pada buku.
+   - **User**: Bisa melakukan GET (hanya akses baca).
 
-2. **Category Management**
-   - **Admin**: Can perform GET, POST, UPDATE, DELETE on categories.
-   - **User**: Can perform GET (read-only access).
+2. **Manajemen Kategori Buku**
+   - **Admin**: Bisa melakukan GET, POST, UPDATE, DELETE pada kategori buku.
+   - **User**: Bisa melakukan GET (hanya akses baca).
 
-3. **User Management**
-   - Admin and Users can log in with separate login endpoints.
+3. **Manajemen Pengguna**
+   - Admin dan User bisa melakukan login dengan endpoint login yang berbeda.
 
-4. **Recommendation Feature**
-   - **Admin**: Full management access to recommendations (GET, POST, UPDATE, DELETE).
-   - **User**: Manage personal recommendations (GET, POST, UPDATE, DELETE).
+4. **Fitur Rekomendasi**
+   - **Admin**: Memiliki akses penuh untuk mengelola rekomendasi (GET, POST, UPDATE, DELETE).
+   - **User**: Dapat mengelola rekomendasi buku pribadi (GET, POST, UPDATE, DELETE).
 
+     
 ## **API Endpoints**
 
 ### **Authentication**
 - **Register**:  
   *Admin : `POST /register/admin`
   *User : `POST /register`
+  **Request body**:
   ```json
   {
     "username": "admin",
@@ -44,3 +46,33 @@ The **Library Management System** is a project designed to manage books, categor
     "email": "admin@example.com",
     "password": "password123"
   }
+
+- **Books**
+  *Admin : `POST /books`, `GET /books`, `PUT /books/:book_id`, `DELETE /books/:book_id`
+  *User : `GET /books`
+    **Request body**:
+  ```json
+  {
+    "category_id": 1,
+    "title": "days",
+    "author": "bambang",
+    "published_year": "2023"
+  }
+
+- **Category**
+  *Admin : `POST /category`, `GET /category`, `PUT /category/:category_id`, `DELETE /category/:category_id`
+    **Request body**:
+  ```json
+  {
+    "name":"horor"
+  }
+
+- **Recomendation**
+  *Admin & User : `POST /recomendation/book_id`, `GET /recomendation`, `PUT /recomendation/:recomendation_id`, `DELETE /recomendation/:recomendation_id`
+    **Request body**:
+  ```json
+  {
+    "reason":"this book is perfect"
+  }
+
+### **ERD**
