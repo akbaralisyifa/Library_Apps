@@ -20,7 +20,7 @@ type Handler interface {
 
 type Query interface {
 	AddBook(newBook Books) error
-	GetAllBook() ([]Books, error)
+	GetAllBook(title string) ([]Books, error)
 	GetBook(bookID uint) (Books, error)
 	UpdateBook(bookID uint, updateBook Books) error
 	DeleteBook(bookID uint) error
@@ -28,7 +28,7 @@ type Query interface {
 
 type Service interface {
 	AddBook(userID uint, newBook Books) error
-	GetAllBook() ([]Books, error)
+	GetAllBook(title string) ([]Books, error)
 	GetBook(bookID uint) (Books, error)
 	UpdateBook(userID, bookID uint, updateBook Books) error
 	DeleteBook(userID, bookID uint) error

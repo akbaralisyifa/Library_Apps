@@ -92,7 +92,8 @@ func (bh *BookHandler) DeleteBook() echo.HandlerFunc{
 // get Book
 func (bh *BookHandler) GetAllBook() echo.HandlerFunc{
 	return func(c echo.Context) error {
-		result, err := bh.srv.GetAllBook()
+		title := c.QueryParam("title")
+		result, err := bh.srv.GetAllBook(title)
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {
 				return c.JSON(404, helpers.ResponseFormat(http.StatusBadRequest,"book not found", nil))

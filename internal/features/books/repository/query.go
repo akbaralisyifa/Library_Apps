@@ -29,10 +29,15 @@ func (bm *BookModels) AddBook(newBook books.Books) error {
 }
 
 // get Book
-func (bm *BookModels) GetAllBook() ([]books.Books, error){
+func (bm *BookModels) GetAllBook(title string) ([]books.Books, error){
 	var result []Books
 	var resultMap []books.Books
-	err := bm.db.Find(&result).Error
+
+	query := bm.db
+	if title != "" {
+		query = query.Where("title ILIKE ?", "%"+title+"%")
+	}
+	err := query.Find(&result).Error
 	if err != nil {
 		return []books.Books{}, err
 	}

@@ -43,8 +43,8 @@ func (bs *BookServices) AddBook(userID uint, newBook books.Books) error {
 	return errors.New("failed: unknown user role")
 }
 
-func (bs *BookServices) GetAllBook() ([]books.Books, error) {
-	result, err := bs.qry.GetAllBook()
+func (bs *BookServices) GetAllBook(title string) ([]books.Books, error) {
+	result, err := bs.qry.GetAllBook(title)
 	if err != nil {
 		log.Print("get all book error", err.Error())
 		return []books.Books{}, errors.New("server in error")
