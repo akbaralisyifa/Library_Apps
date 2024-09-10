@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	books "library/internal/features/books"
+	users "library/internal/features/users"
 
 	mock "github.com/stretchr/testify/mock"
 )
@@ -13,17 +13,17 @@ type Service struct {
 	mock.Mock
 }
 
-// AddBook provides a mock function with given fields: userID, newBook
-func (_m *Service) AddBook(userID uint, newBook books.Books) error {
-	ret := _m.Called(userID, newBook)
+// DeleteUser provides a mock function with given fields: id
+func (_m *Service) DeleteUser(id uint) error {
+	ret := _m.Called(id)
 
 	if len(ret) == 0 {
-		panic("no return value specified for AddBook")
+		panic("no return value specified for DeleteUser")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(uint, books.Books) error); ok {
-		r0 = rf(userID, newBook)
+	if rf, ok := ret.Get(0).(func(uint) error); ok {
+		r0 = rf(id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -31,75 +31,27 @@ func (_m *Service) AddBook(userID uint, newBook books.Books) error {
 	return r0
 }
 
-// DeleteBook provides a mock function with given fields: userID, bookID
-func (_m *Service) DeleteBook(userID uint, bookID uint) error {
-	ret := _m.Called(userID, bookID)
+// GetUser provides a mock function with given fields: userID
+func (_m *Service) GetUser(userID uint) (users.Users, error) {
+	ret := _m.Called(userID)
 
 	if len(ret) == 0 {
-		panic("no return value specified for DeleteBook")
+		panic("no return value specified for GetUser")
 	}
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(uint, uint) error); ok {
-		r0 = rf(userID, bookID)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// GetAllBook provides a mock function with given fields:
-func (_m *Service) GetAllBook() ([]books.Books, error) {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetAllBook")
-	}
-
-	var r0 []books.Books
+	var r0 users.Users
 	var r1 error
-	if rf, ok := ret.Get(0).(func() ([]books.Books, error)); ok {
-		return rf()
+	if rf, ok := ret.Get(0).(func(uint) (users.Users, error)); ok {
+		return rf(userID)
 	}
-	if rf, ok := ret.Get(0).(func() []books.Books); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(uint) users.Users); ok {
+		r0 = rf(userID)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]books.Books)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// GetBook provides a mock function with given fields: bookID
-func (_m *Service) GetBook(bookID uint) (books.Books, error) {
-	ret := _m.Called(bookID)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetBook")
-	}
-
-	var r0 books.Books
-	var r1 error
-	if rf, ok := ret.Get(0).(func(uint) (books.Books, error)); ok {
-		return rf(bookID)
-	}
-	if rf, ok := ret.Get(0).(func(uint) books.Books); ok {
-		r0 = rf(bookID)
-	} else {
-		r0 = ret.Get(0).(books.Books)
+		r0 = ret.Get(0).(users.Users)
 	}
 
 	if rf, ok := ret.Get(1).(func(uint) error); ok {
-		r1 = rf(bookID)
+		r1 = rf(userID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -107,17 +59,70 @@ func (_m *Service) GetBook(bookID uint) (books.Books, error) {
 	return r0, r1
 }
 
-// UpdateBook provides a mock function with given fields: userID, bookID, updateBook
-func (_m *Service) UpdateBook(userID uint, bookID uint, updateBook books.Books) error {
-	ret := _m.Called(userID, bookID, updateBook)
+// Login provides a mock function with given fields: email, password
+func (_m *Service) Login(email string, password string) (users.Users, string, error) {
+	ret := _m.Called(email, password)
 
 	if len(ret) == 0 {
-		panic("no return value specified for UpdateBook")
+		panic("no return value specified for Login")
+	}
+
+	var r0 users.Users
+	var r1 string
+	var r2 error
+	if rf, ok := ret.Get(0).(func(string, string) (users.Users, string, error)); ok {
+		return rf(email, password)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) users.Users); ok {
+		r0 = rf(email, password)
+	} else {
+		r0 = ret.Get(0).(users.Users)
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) string); ok {
+		r1 = rf(email, password)
+	} else {
+		r1 = ret.Get(1).(string)
+	}
+
+	if rf, ok := ret.Get(2).(func(string, string) error); ok {
+		r2 = rf(email, password)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
+// Register provides a mock function with given fields: newUser
+func (_m *Service) Register(newUser users.Users) error {
+	ret := _m.Called(newUser)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Register")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(uint, uint, books.Books) error); ok {
-		r0 = rf(userID, bookID, updateBook)
+	if rf, ok := ret.Get(0).(func(users.Users) error); ok {
+		r0 = rf(newUser)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateUser provides a mock function with given fields: id, updateUser
+func (_m *Service) UpdateUser(id uint, updateUser users.Users) error {
+	ret := _m.Called(id, updateUser)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateUser")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(uint, users.Users) error); ok {
+		r0 = rf(id, updateUser)
 	} else {
 		r0 = ret.Error(0)
 	}

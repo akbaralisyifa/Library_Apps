@@ -10,6 +10,11 @@ type Books struct {
 	PublishedYear string
 }
 
+type User struct {
+    ID   uint
+    Role string
+}
+
 type Handler interface {
 	AddBook() echo.HandlerFunc
 	UpdateBook() echo.HandlerFunc

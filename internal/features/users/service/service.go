@@ -28,7 +28,7 @@ func (us *UserServices) Register(newUser users.Users) error {
 	hashPw, err := us.pwd.GeneretePassword(newUser.Password);
 	if err != nil {
 		log.Print("Register Generete Password Error", err.Error())
-		return err
+		return errors.New("hash error")
 	}
 
 	newUser.Password = string(hashPw)
@@ -61,7 +61,7 @@ func (us *UserServices) Login(email string, password string) (users.Users, strin
 	token, err := us.jwt.GenerateJwt(result.ID);
 	if err != nil {
 		log.Print("generete token error", err.Error())
-		return users.Users{}, "", errors.New("error in server")
+		return users.Users{}, "", errors.New("jwt error")
 	}
 
 	return result, token, nil
@@ -87,7 +87,7 @@ func (us *UserServices) UpdateUser(id uint, updateUser users.Users) error {
 		hashPw, err := us.pwd.GeneretePassword(updateUser.Password)
 		if err != nil {
 			log.Print("update generete password error", err.Error())
-			return errors.New("update generete password error")
+			return errors.New("hash error")
 		}
 		updateUser.Password = string(hashPw)
 	}
@@ -95,7 +95,7 @@ func (us *UserServices) UpdateUser(id uint, updateUser users.Users) error {
 	err := us.qry.UpdateUser(id, updateUser)
 	if err != nil {
 		log.Print("update user error", err.Error())
-		return errors.New("server error")
+		return errors.New("error in server") 
 	}
 
 	return nil;
@@ -106,7 +106,7 @@ func (us *UserServices) DeleteUser(id uint) error {
 
 	if err != nil {
 		log.Print("delete user error", err.Error())
-		return errors.New("server error")
+		return errors.New("error in server") 
 	}
 
 	return nil;
