@@ -89,5 +89,5 @@ func main() {
 	routes.InitRouter(e, ur, br, cr, rr)
 
 
-	e.Logger.Fatal(e.Start(":3333"))
+	e.Logger.Fatal(e.Start(":6000"))
 }
